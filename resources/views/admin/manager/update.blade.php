@@ -29,30 +29,30 @@
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>员工名称：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" name="username">
+			<input type="text" class="input-text" name="username" value="{{$manager->username}}">
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password" name="password">
+			<input type="password" class="input-text" autocomplete="off" value="{{$manager->password}}" placeholder="密码" id="password" name="password">
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" name="password_confirmation">
+			<input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" value="{{$manager->password}}" name="password_confirmation">
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
 		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 			<div class="radio-box">
-				<input name="mg_sex" type="radio" id="sex-1" value="男" checked>
+				<input name="mg_sex" type="radio" id="sex-1" value="男" @if($manager->mg_sex == '男') checked @endif>
 				<label for="sex-1">男</label>
 			</div>
 			<div class="radio-box">
-				<input type="radio" id="sex-2" name="mg_sex" value="女">
+				<input type="radio" id="sex-2" name="mg_sex" value="女" @if($manager->mg_sex == '女') checked @endif>
 				<label for="sex-2">女</label>
 			</div>
 		</div>
@@ -60,23 +60,23 @@
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="phone" name="mg_phone">
+			<input type="text" class="input-text" value="{{$manager->mg_phone}}" placeholder="" id="phone" name="mg_phone">
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" placeholder="@" name="mg_email" id="mg_email">
+			<input type="text" class="input-text" placeholder="@" value="{{$manager->mg_email}}" name="mg_email" id="mg_email">
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3">角色：</label>
 		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="mg_role_ids" size="1">
-				<option value="">超级管理员</option>
-				<option value="100">总编</option>
-				<option value="101">栏目主辑</option>
-				<option value="102">栏目编辑</option>
+				<option value="" @if($manager->mg_role_ids == NULL) selected @endif>超级管理员</option>
+				<option value="100" @if($manager->mg_role_ids == 100) selected @endif>总编</option>
+				<option value="101" @if($manager->mg_role_ids == 101) selected @endif>栏目主辑</option>
+				<option value="102" @if($manager->mg_role_ids == 102) selected @endif>栏目编辑</option>
 			</select>
 			</span> </div>
 	</div>
@@ -88,7 +88,7 @@
 		<div class="formControls col-xs-8 col-sm-9">
 			{{--<textarea name="" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true" onKeyUp="$.Huitextarealength(this,100)">--}}
 			{{--</textarea>--}}
-			<script id="mg_remark" type="text/plain" name="mg_remark"></script>
+			<script id="mg_remark" type="text/plain" name="mg_remark">{!!$manager->mg_remark!!}</script>
             <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 		</div>
 	</div>
@@ -184,7 +184,7 @@ $(function(){
         //获取数据
         var data = $(this).serialize();
         $.ajax({
-            url : '/admin/manager/add',
+            url : '/admin/manager/update/{{$manager->mg_id}}',
             type : 'post',
             data : data,
             dataType : 'json',
@@ -192,13 +192,13 @@ $(function(){
             success : function(msg){
                 if(msg.success === true)
                 {
-                    layer.alert('添加成功',function(){
+                    layer.alert('更新成功',function(){
                         parent.window.location.href = parent.window.location.href;
                         layer_close();
                     })
                 }else
                 {
-                    layer.alert('添加失败',{icon:5});
+                    layer.alert('更新失败',{icon:5});
                 }
             }
         });
