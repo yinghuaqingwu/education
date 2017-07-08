@@ -44,6 +44,43 @@
 			<input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" name="password_confirmation">
 		</div>
 	</div>
+<script type="text/javascript" src="/admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script src="/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/uploadify/uploadify.css">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>上传头像：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input id="file_upload" name="file_upload" type="file">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>头像地址：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<p><img src="" id="show_pic" alt="" width="100" height="100"></p>
+				<p><input name="mg_pic" id="mg_pic" class="input-text" type="text" readonly='readonly'></p>
+			</div>
+		</div>
+<script type="text/javascript">
+        <?php $timestamp = time();?>
+		$(function() {
+                $('#file_upload').uploadify({
+                    'formData'     : {
+                        'timestamp' : '<?php echo $timestamp;?>',
+                        '_token'     : '{{csrf_token()}}'
+                    },
+                    'swf'      : '/uploadify/uploadify.swf',
+                    'uploader' : '/admin/manager/up_pic',
+                    'onUploadSuccess' : function(file, data, response) {
+                        var obj = JSON.parse(data);
+                        if(obj.success === true)
+                        {
+                            $('#show_pic').attr('src',obj.pathinfo);
+                            $('#mg_pic').val(obj.pathinfo);
+						}
+					}
+                });
+            });
+</script>
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
 		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
@@ -100,8 +137,7 @@
 	</form>
 </article>
 
-<!--_footer 作为公共模版分离出去--> 
-<script type="text/javascript" src="/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="/admin/lib/layer/2.4/layer.js"></script>
 <script type="text/javascript" src="/admin/static/h-ui/js/H-ui.min.js"></script> 
 <script type="text/javascript" src="/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->

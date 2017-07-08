@@ -12,9 +12,10 @@ class ManagerController extends Controller
     #管理员列表展示
     public function showlist(Manager $manager)
     {
+        $count = $manager->count();
         $info = $manager->paginate(8);
 
-        return view('admin/manager/showlist',['info'=>$info]);
+        return view('admin/manager/showlist',['info'=>$info,'count'=>$count]);
     }
 
     #管理员添加
@@ -131,6 +132,25 @@ class ManagerController extends Controller
         Auth::guard('admin')->logout();
       return redirect('admin/manager/login');
 
+    }
+
+    //管理员头像上传操作
+    public function up_pic(Request $request)
+    {
+        $files = $request->file('Filedata');
+        if($files->isValid())
+        {
+            $ext = $files->extension();
+            $filename = uniqid('mg_').'.'.$ext;
+            $pathinfo = $files->storeAs('manager',$filename,'public');
+            if($pathinfo)
+            {
+                return json_encode(['success'=>true,'pathinfo'=>'/storage/'.$pathinfo]);
+            }else
+            {
+                return json_encode(['success'=>false]);
+            }
+        }
     }
 
 }

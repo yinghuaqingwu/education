@@ -36,6 +36,8 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
         Route::post('manager/start_stop/{mg_id}','ManagerController@start_stop');
         //管理员退出操作
         Route::get('manager/logout','ManagerController@logout');
+        //管理员上传头像操作
+        Route::match(['get','post'],'manager/up_pic','ManagerController@up_pic');
     });
 
 });
