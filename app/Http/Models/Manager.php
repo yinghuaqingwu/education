@@ -2,10 +2,11 @@
 
 namespace App\Http\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Manager extends Model
+class Manager extends Authenticate
 {
     protected $table = 'manager';
     protected $primaryKey = "mg_id";

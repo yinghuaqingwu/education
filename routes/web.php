@@ -30,4 +30,8 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
     Route::post('manager/dels/{mg_ids}','ManagerController@dels');
     //管理员启用停用操作
     Route::post('manager/start_stop/{mg_id}','ManagerController@start_stop');
+    //后台管理员登录操作
+    Route::match(['get','post'],'manager/login','ManagerController@login');
+    //管理员退出操作
+    Route::get('manager/logout','ManagerController@logout');
 });

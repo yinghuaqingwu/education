@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Manager;
+use Illuminate\Support\Facades\Auth;
 
 class ManagerController extends Controller
 {
@@ -22,6 +23,7 @@ class ManagerController extends Controller
         if($request->isMethod('post'))
         {
             $data = $request->all();
+            $data['password'] = bcrypt($data['password']);
             $rst = Manager::create($data);
             if($rst)
             {
@@ -91,6 +93,44 @@ class ManagerController extends Controller
         {
             return ['success'=>false];
         }
+    }
+
+    #管理员登录操作
+    public function login(Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+            $username = $request->input('username');
+            $password = $request->input('password');
+            $rules = [
+                'username' => 'required',
+                'password' => 'required',
+            ];
+            $notices = [
+                'username.required' => '账户密码不能为空',
+                'password.required' => '密码不能为空'
+            ];
+            $validator = $this->validate($request,$rules,$notices);
+            //验证成功，进行用户登录认证，与数据库数据做比对
+            if(Auth::guard('admin')->attempt(['username' =>$username ,'password' => $password]))
+            {
+                return redirect('/admin/index/index');
+            }else
+            {
+                return redirect('/admin/manager/login')->withErrors(['errorinfo'=>'用户名或密码不正确'])->withInput();
+            }
+            //验证不成功
+            return redirect('/admin/manager/login')->withErrors($validator)->withInput();
+        }
+        return view('admin/manager/login');
+    }
+
+    //管理员退出操作
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+      return redirect('admin/manager/login');
+
     }
 
 }

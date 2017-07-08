@@ -27,17 +27,27 @@
 <div class="header"></div>
 <div class="loginWraper">
   <div id="loginform" class="loginBox">
-    <form class="form form-horizontal" action="index.html" method="post">
+    @if($errors->first('username'))
+      <div style="width:100%; height: 20px; background-color: red">{{$errors->first('username')}}</div>
+    @endif
+      @if($errors->first('password'))
+        <div style="width:100%; height: 20px; background-color: red">{{$errors->first('password')}}</div>
+      @endif
+      @if($errors->first('errorinfo'))
+        <div style="width:100%; height: 20px; background-color: red">{{$errors->first('errorinfo')}}</div>
+      @endif
+    <form class="form form-horizontal" action='{{url("admin/manager/login")}}' method="post">
+      {{csrf_field()}}
       <div class="row cl">
         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
         <div class="formControls col-xs-8">
-          <input id="" name="" type="text" placeholder="账户" class="input-text size-L">
+          <input id="" name="username" value='{{old("username")}}' type="text" placeholder="账户" class="input-text size-L">
         </div>
       </div>
       <div class="row cl">
         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
         <div class="formControls col-xs-8">
-          <input id="" name="" type="password" placeholder="密码" class="input-text size-L">
+          <input id="" name="password" value='{{old("password")}}' type="password" placeholder="密码" class="input-text size-L">
         </div>
       </div>
       <div class="row cl">
