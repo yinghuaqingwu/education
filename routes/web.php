@@ -15,23 +15,27 @@ Route::get('/','Home\IndexController@index');
 
 
 Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
-    //首页
-    Route::get('index/index','IndexController@index');
-    Route::get('index/home','IndexController@home');
-    //管理员列表
-    Route::match(['get','post'],'manager/showlist','ManagerController@showlist');
-    //管理员添加
-    Route::match(['get','post'],'manager/add','ManagerController@add');
-    //管理员更新操作
-    Route::match(['get','post'],'manager/update/{manager}','ManagerController@update');
-    //管理员删除操作
-    Route::post('manager/del/{manager}','ManagerController@del');
-    //管理员批量删除
-    Route::post('manager/dels/{mg_ids}','ManagerController@dels');
-    //管理员启用停用操作
-    Route::post('manager/start_stop/{mg_id}','ManagerController@start_stop');
     //后台管理员登录操作
-    Route::match(['get','post'],'manager/login','ManagerController@login');
-    //管理员退出操作
-    Route::get('manager/logout','ManagerController@logout');
+    Route::match(['get','post'],'manager/login','ManagerController@login')->name('login');
+    //用户认证登录，防止越权登录
+    Route::group(['middleware'=>['auth:admin']],function(){
+        //首页
+        Route::get('index/index','IndexController@index');
+        Route::get('index/home','IndexController@home');
+        //管理员列表
+        Route::match(['get','post'],'manager/showlist','ManagerController@showlist');
+        //管理员添加
+        Route::match(['get','post'],'manager/add','ManagerController@add');
+        //管理员更新操作
+        Route::match(['get','post'],'manager/update/{manager}','ManagerController@update');
+        //管理员删除操作
+        Route::post('manager/del/{manager}','ManagerController@del');
+        //管理员批量删除
+        Route::post('manager/dels/{mg_ids}','ManagerController@dels');
+        //管理员启用停用操作
+        Route::post('manager/start_stop/{mg_id}','ManagerController@start_stop');
+        //管理员退出操作
+        Route::get('manager/logout','ManagerController@logout');
+    });
+
 });
