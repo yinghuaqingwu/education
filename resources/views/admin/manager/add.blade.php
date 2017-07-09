@@ -110,10 +110,9 @@
 		<label class="form-label col-xs-4 col-sm-3">角色：</label>
 		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="mg_role_ids" size="1">
-				<option value="">超级管理员</option>
-				<option value="100">总编</option>
-				<option value="101">栏目主辑</option>
-				<option value="102">栏目编辑</option>
+				@foreach($info as $k => $v)
+				<option value="{{$k}}">{{$v}}</option>
+				@endforeach
 			</select>
 			</span> </div>
 	</div>

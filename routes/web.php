@@ -31,13 +31,21 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
         //管理员删除操作
         Route::post('manager/del/{manager}','ManagerController@del');
         //管理员批量删除
-        Route::post('manager/dels/{mg_ids}','ManagerController@dels');
+        Route::post('manager/dels','ManagerController@dels');
         //管理员启用停用操作
         Route::post('manager/start_stop/{mg_id}','ManagerController@start_stop');
         //管理员退出操作
         Route::get('manager/logout','ManagerController@logout');
         //管理员上传头像操作
         Route::match(['get','post'],'manager/up_pic','ManagerController@up_pic');
+        //角色管理列表展示操作
+        Route::match(['get','post'],'role/showlist','RoleController@showlist');
+        //角色添加操作
+        Route::match(['get','post'],'role/add','RoleController@add');
+        //权限列表显示
+        Route::get('permission/showlist','PermissionController@showlist');
+        //提示你家权限操作
+        Route::match(['get','post'],'permission/add','PermissionController@add');
     });
 
 });

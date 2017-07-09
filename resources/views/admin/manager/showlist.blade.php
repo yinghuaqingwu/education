@@ -61,7 +61,7 @@
 				<td>{{$v->mg_id}}</td>
 				<td>{{$v->username}}</td>
 				<td><img src="{{$v->mg_pic}}" alt="" width="100" height="100"></td>
-				<td>{{$v->mg_role_ids}}</td>
+				<td>{{$v['role']['role_name']}}</td>
 				<td>{{$v->mg_sex}}</td>
 				<td>{{$v->mg_phone}}</td>
 				<td>{{$v->mg_email}}</td>
@@ -201,7 +201,8 @@ function datadel()
 	{
 	     $.ajax({
 			 type : 'post',
-			 url : '/admin/manager/dels/'+arr,
+			 url : '/admin/manager/dels',
+			 data:{a:arr},
 			 dataType : 'json',
 			 headers : {'X-CSRF-TOKEN':'{{csrf_token()}}'},
 			 success : function(msg){

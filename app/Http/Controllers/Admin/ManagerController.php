@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Manager;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Models\Role;
 
 class ManagerController extends Controller
 {
@@ -13,13 +14,13 @@ class ManagerController extends Controller
     public function showlist(Manager $manager)
     {
         $count = $manager->count();
-        $info = $manager->paginate(8);
+        $info = $manager->with('role')->paginate(8);
 
         return view('admin/manager/showlist',['info'=>$info,'count'=>$count]);
     }
 
     #管理员添加
-    public function add(Request $request)
+    public function add(Request $request,Role $role)
     {
         if($request->isMethod('post'))
         {
@@ -34,11 +35,12 @@ class ManagerController extends Controller
                 return ['success'=>false];
             }
         }
-        return view('admin/manager/add');
+        $info = $role->pluck('role_name','role_id');
+        return view('admin/manager/add',compact('info'));
     }
 
     #管理员更新
-    public function update(Request $request,Manager $manager)
+    public function update(Request $request,Manager $manager,Role $role)
     {
         if($request->isMethod('post'))
         {
@@ -52,7 +54,8 @@ class ManagerController extends Controller
                 return ['success'=>false];
             }
         }
-        return view('admin/manager/update',compact('manager'));
+        $info = $role->pluck('role_name','role_id');
+        return view('admin/manager/update',compact('manager','info'));
     }
 
     #管理员删除
@@ -69,10 +72,11 @@ class ManagerController extends Controller
     }
 
     #批量删除
-    public function dels(Request $request,$mg_ids)
+    public function dels(Request $request)
     {
-        $arr = explode(',',$mg_ids);
-        $rst = \DB::table('manager')->whereIn('mg_id',$arr)->delete();
+        $arr = $request->all();
+        $mg_id = $arr['a'];
+        $rst = Manager::destroy($mg_id);
         if($rst)
         {
             return ['success'=>true];
