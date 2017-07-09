@@ -45,7 +45,7 @@
 				<td><input type="checkbox" value="" name=""></td>
 				<td>{{$v->role_id}}</td>
 				<td>{{$v->role_name}}</td>
-				<td>{{$v->role_id}}</td>
+				<td>{{$v['permission']['ps_id']}}</td>
 				<td>{{$v->role_remark}}</td>
 				<td class="f-14"><a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','/admin/role/update/{{$v->role_id}}','1')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 			</tr>

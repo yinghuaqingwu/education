@@ -11,7 +11,7 @@ class RoleController extends Controller
     #角色列表显示
     public function showlist(Role $role)
     {
-        $info = $role->get();
+        $info = $role->with('permission')->get();
         return view('admin/role/showlist',compact('info'));
     }
 
