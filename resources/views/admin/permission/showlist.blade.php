@@ -52,16 +52,16 @@
 		@foreach($info as $v)
 			<tr class="text-c">
 				<td><input type="checkbox" value="1" name=""></td>
-				<td>{{$v->ps_id}}</td>
-				<td>{{$v->ps_name}}</td>
-				<td>{{$v->ps_pid}}</td>
-				<td>{{$v->ps_c}}</td>
-				<td>{{$v->ps_a}}</td>
-				<td>{{$v->ps_address}}</td>
-				<td>{{$v->ps_remark}}</td>
-				<td><a title="编辑" href="javascript:;" onclick="admin_permission_edit('角色编辑','/admin/permission/update/{{$v->ps_id}}','1','','310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_permission_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td>{{$v['ps_id']}}</td>
+				<td>{{str_repeat('----',$v['ps_level'])}}{{$v['ps_name']}}</td>
+				<td>{{$v['ps_pid']}}</td>
+				<td>{{$v['ps_c']}}</td>
+				<td>{{$v['ps_a']}}</td>
+				<td>{{$v['ps_address']}}</td>
+				<td>{{$v['ps_remark']}}</td>
+				<td><a title="编辑" href="javascript:;" onclick="admin_permission_edit('角色编辑','/admin/permission/update/{{$v['ps_id']}}','1','','310')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_permission_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 			</tr>
-			@endforeach
+		@endforeach
 		</tbody>
 	</table>
 </div>

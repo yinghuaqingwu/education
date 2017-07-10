@@ -11,7 +11,8 @@ class PermissionController extends Controller
     #权限列表显示
     public function showlist(Permission $permission)
     {
-        $info = $permission->get();
+        $info = $permission->get()->toarray();
+        $info = generateTree($info);
         return view('admin/permission/showlist',compact('info'));
     }
 
