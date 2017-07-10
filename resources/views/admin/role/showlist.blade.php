@@ -41,15 +41,22 @@
 		</thead>
 		<tbody>
 		@foreach($info as $v)
+
 			<tr class="text-c">
 				<td><input type="checkbox" value="" name=""></td>
 				<td>{{$v->role_id}}</td>
 				<td>{{$v->role_name}}</td>
-				<td>{{$v['permission']['ps_id']}}</td>
+				<td>
+					@foreach($v->ps_id as $vv)
+						{{$vv}}
+					@endforeach
+				</td>
 				<td>{{$v->role_remark}}</td>
-				<td class="f-14"><a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','/admin/role/update/{{$v->role_id}}','1')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td class="f-14"><a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','/admin/role/update/{{$v->role_id}}','1')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_role_del(this,'{{$v->role_id}}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 			</tr>
+
 			@endforeach
+
 		</tbody>
 	</table>
 </div>
@@ -75,8 +82,10 @@ function admin_role_del(obj,id){
 	layer.confirm('角色删除须谨慎，确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: '',
+			url: '/admin/role/del',
+			data : {'role_id':id},
 			dataType: 'json',
+			headers:{'X-CSRF-TOKEN':'{{csrf_token()}}'},
 			success: function(data){
 				$(obj).parents("tr").remove();
 				layer.msg('已删除!',{icon:1,time:1000});

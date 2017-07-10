@@ -42,10 +42,15 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
         Route::match(['get','post'],'role/showlist','RoleController@showlist');
         //角色添加操作
         Route::match(['get','post'],'role/add','RoleController@add');
+        //角色更新操作
+        Route::match(['get','post'],'role/update/{role}','RoleController@update');
+        //删除权限操作
+        Route::post('role/del','RoleController@del');
         //权限列表显示
         Route::get('permission/showlist','PermissionController@showlist');
-        //提示你家权限操作
+        //添加权限操作
         Route::match(['get','post'],'permission/add','PermissionController@add');
+
     });
 
 });

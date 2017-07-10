@@ -9,13 +9,8 @@ class Role extends Model
 {
     protected $table = 'role';
     protected $primaryKey = 'role_id';
-    protected $fillable = ['role_name','ps_id','role_remark'];
+    protected $fillable = ['role_name','ps_id','role_remark','role_ps_ac'];
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
-    //角色与权限1对多
-    public function permission()
-    {
-        return $this->hasMany('\App\Http\Models\Permission','ps_id','ps_id');
-    }
 }

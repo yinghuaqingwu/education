@@ -34,38 +34,40 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="roleName" name="role_name">
+				<input type="text" class="input-text" value="{{$role->role_name}}" placeholder="" id="roleName" name="role_name">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">备注：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="" name="role_remark">
+				<input type="text" class="input-text" value="{{$role->role_remark}}" placeholder="" id="" name="role_remark">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">拥有权限：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				@foreach($permissionA as $k=>$v)
+				<?php $mg_ps_ids = explode(',',$role->ps_id); ?>
+				@foreach($permissionA as $k => $v)
 				<dl class="permission-list">
 					<dt>
 						<label>
-							<input type="checkbox" value="{{$k}}" class="quanli"  name="quanxian[]" id="user-Character-0">
+							<input type="checkbox" value="{{$k}}" name="quanxian[]" class="quanli" id="user-Character-0" @if(in_array($k,$mg_ps_ids)) checked @endif>
 							{{$v}}</label>
 					</dt>
 					<dd>
-						<dl class="cl permission-list2">
+						<dl class="permission-list2">
 							<dd>
 								@foreach($permissionB as $vv)
 									@if($k == $vv->ps_pid)
-								<label class="">
-									<input type="checkbox" value="{{$vv->ps_id}}" name="quanxian[]" class="quanli" id="user-Character-0-0-0">
-									{{$vv->ps_name}}</label>
+										<label class="">
+											<input type="checkbox" value="{{$vv->ps_id}}" name="quanxian[]" class="quanli" id="user-Character-0-0-0" @if(in_array($vv->ps_id,$mg_ps_ids)) checked @endif>
+											{{$vv->ps_name}}</label>
 									@endif
 								@endforeach
 							</dd>
 						</dl>
 					</dd>
+
 				</dl>
 				@endforeach
 			</div>
@@ -90,68 +92,69 @@
 <script type="text/javascript" src="/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
 $(function(){
-	$(".permission-list dt input:checkbox").click(function(){
-		$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
+    $(".permission-list dt input:checkbox").click(function(){
+        $(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
+    });
+    $(".permission-list2 dd input:checkbox").click(function(){
+        var l =$(this).parent().parent().find("input:checked").length;
+        var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
+        if($(this).prop("checked")){
+            $(this).closest("dl").find("dt input:checkbox").prop("checked",true);
+            $(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
+        }
+        else{
+            if(l==0){
+                $(this).closest("dl").find("dt input:checkbox").prop("checked",false);
+            }
+            if(l2==0){
+                $(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
+            }
+        }
 	});
-	$(".permission-list2 dd input:checkbox").click(function(){
-		var l =$(this).parent().parent().find("input:checked").length;
-		var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
-		if($(this).prop("checked")){
-			$(this).closest("dl").find("dt input:checkbox").prop("checked",true);
-			$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
-		}
-		else{
-			if(l==0){
-				$(this).closest("dl").find("dt input:checkbox").prop("checked",false);
-			}
-			if(l2==0){
-				$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
-			}
+
+	/*
+	$("#form-admin-role-add").validate({
+		rules:{
+			roleName:{
+				required:true,
+			},
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			$(form).ajaxSubmit();
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
 		}
 	});
-	
-//	$("#form-admin-role-add").validate({
-//		rules:{
-//			roleName:{
-//				required:true,
-//			},
-//		},
-//		onkeyup:false,
-//		focusCleanup:true,
-//		success:"valid",
-//		submitHandler:function(form){
-//			$(form).ajaxSubmit();
-//			var index = parent.layer.getFrameIndex(window.name);
-//			parent.layer.close(index);
-//		}
-//	});
+	*/
 
 	$('#form-admin-role-add').submit(function(env){
 	    env.preventDefault();
-	    var data = $(this).serialize();
-        if($('.quanli:checked').length<0)
-        {
-            layer.alert('请设置权限值',{icon:5});
-            return false;
-        }
-        $.ajax({
-            type:'post',
-            url:'/admin/role/add',
-            data:data,
-            headers:{'X-CSRF-TOKEN':'{{csrf_token()}}'},
-            success:function(msg){
-                if(msg.success === true)
-                {
-                    layer.alert('权限添加成功',function(){
-                        parent.window.location.href = parent.window.location.href;
-                        layer_close();
-                    });
-                }else{
-                    layer.alert('添加失败【'+msg.errorinfo+'】',{icon:5});
-                    layer.alert('添加失败【'+msg.errorinfo+'】',{icon:5});
-                }
-            }
-        });
+		var data = $(this).serialize();
+		if($('.quanli:checked').length<0)
+		{
+		    layer.alert('请设置权限值',{icon:5});
+		    return false;
+		}
+		$.ajax({
+			type:'post',
+			url:'/admin/role/update/{{$role->role_id}}',
+			data:data,
+			headers:{'X-CSRF-TOKEN':'{{csrf_token()}}'},
+			success:function(msg){
+			    if(msg.success === true)
+				{
+				    layer.alert('权限修改成功',function(){
+						parent.window.location.href = parent.window.location.href;
+						layer_close();
+					});
+				}else{
+			        layer.alert('修改失败【'+msg.errorinfo+'】',{icon:5});
+				}
+			}
+		});
 	});
 });
 </script>
