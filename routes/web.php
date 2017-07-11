@@ -22,34 +22,37 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
         //首页
         Route::get('index/index','IndexController@index');
         Route::get('index/home','IndexController@home');
-        //管理员列表
-        Route::match(['get','post'],'manager/showlist','ManagerController@showlist');
-        //管理员添加
-        Route::match(['get','post'],'manager/add','ManagerController@add');
-        //管理员更新操作
-        Route::match(['get','post'],'manager/update/{manager}','ManagerController@update');
-        //管理员删除操作
-        Route::post('manager/del/{manager}','ManagerController@del');
-        //管理员批量删除
-        Route::post('manager/dels','ManagerController@dels');
-        //管理员启用停用操作
-        Route::post('manager/start_stop/{mg_id}','ManagerController@start_stop');
-        //管理员退出操作
-        Route::get('manager/logout','ManagerController@logout');
-        //管理员上传头像操作
-        Route::match(['get','post'],'manager/up_pic','ManagerController@up_pic');
-        //角色管理列表展示操作
-        Route::match(['get','post'],'role/showlist','RoleController@showlist');
-        //角色添加操作
-        Route::match(['get','post'],'role/add','RoleController@add');
-        //角色更新操作
-        Route::match(['get','post'],'role/update/{role}','RoleController@update');
-        //删除权限操作
-        Route::post('role/del','RoleController@del');
-        //权限列表显示
-        Route::get('permission/showlist','PermissionController@showlist');
-        //添加权限操作
-        Route::match(['get','post'],'permission/add','PermissionController@add');
+        Route::group(['middleware'=>['jumpwall']],function(){
+            //管理员列表
+            Route::match(['get','post'],'manager/showlist','ManagerController@showlist');
+            //管理员添加
+            Route::match(['get','post'],'manager/add','ManagerController@add');
+            //管理员更新操作
+            Route::match(['get','post'],'manager/update/{manager}','ManagerController@update');
+            //管理员删除操作
+            Route::post('manager/del/{manager}','ManagerController@del');
+            //管理员批量删除
+            Route::post('manager/dels','ManagerController@dels');
+            //管理员启用停用操作
+            Route::post('manager/start_stop/{mg_id}','ManagerController@start_stop');
+            //管理员退出操作
+            Route::get('manager/logout','ManagerController@logout');
+            //管理员上传头像操作
+            Route::match(['get','post'],'manager/up_pic','ManagerController@up_pic');
+            //角色管理列表展示操作
+            Route::match(['get','post'],'role/showlist','RoleController@showlist');
+            //角色添加操作
+            Route::match(['get','post'],'role/add','RoleController@add');
+            //角色更新操作
+            Route::match(['get','post'],'role/update/{role}','RoleController@update');
+            //删除权限操作
+            Route::post('role/del','RoleController@del');
+            //权限列表显示
+            Route::get('permission/showlist','PermissionController@showlist');
+            //添加权限操作
+            Route::match(['get','post'],'permission/add','PermissionController@add');
+
+        });
 
     });
 
