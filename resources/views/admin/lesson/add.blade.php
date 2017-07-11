@@ -10,16 +10,16 @@
 <link rel="Bookmark" href="/favicon.ico" >
 <link rel="Shortcut Icon" href="/favicon.ico" />
 <!--[if lt IE 9]>
-<script type="text/javascript" src="lib/html5shiv.js"></script>
-<script type="text/javascript" src="lib/respond.min.js"></script>
+<script type="text/javascript" src="/admin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="/admin/lib/respond.min.js"></script>
 <![endif]-->
-<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
-<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
-<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
-<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/style.css" />
 <!--[if IE 6]>
-<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
@@ -32,63 +32,103 @@
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-member-add">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="username" name="username">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
-			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
-				<div class="radio-box">
-					<input name="sex" type="radio" id="sex-1" checked>
-					<label for="sex-1">男</label>
-				</div>
-				<div class="radio-box">
-					<input type="radio" id="sex-2" name="sex">
-					<label for="sex-2">女</label>
-				</div>
-				<div class="radio-box">
-					<input type="radio" id="sex-3" name="sex">
-					<label for="sex-3">保密</label>
-				</div>
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="mobile" name="mobile">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" placeholder="@" name="email" id="email">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">附件：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="btn-upload form-group">
-				<input class="input-text upload-url" type="text" name="uploadfile" id="uploadfile" readonly nullmsg="请添加附件！" style="width:200px">
-				<a href="javascript:void();" class="btn btn-primary radius upload-btn"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
-				<input type="file" multiple name="file-2" class="input-file">
-				</span> </div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">所在城市：</label>
+			<label class="form-label col-xs-4 col-sm-3">课程名称：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="city">
-					<option value="" selected>请选择城市</option>
-					<option value="1">北京</option>
-					<option value="2">上海</option>
-					<option value="3">广州</option>
+				<select class="select" size="1" name="course_id">
+					@foreach($course as $k => $v)
+					<option value="{{$k}}">{{$v}}</option>
+					@endforeach
 				</select>
 				</span> </div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>课时名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" name="lesson_name">
+			</div>
+		</div>
+		<script type="text/javascript" src="/admin/lib/jquery/1.9.1/jquery.min.js"></script>
+		<script src="/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="/uploadify/uploadify.css">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>上传封面：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input id="file_upload" name="file_upload" type="file">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>头像地址：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<p><img src="" id="show_pic" alt="" width="100" height="100"></p>
+				<p><input name="cover_img" id="cover_img" class="input-text" type="text" readonly='readonly'></p>
+			</div>
+		</div>
+		<script type="text/javascript">
+            <?php $timestamp = time();?>
+    			$(function() {
+                $('#file_upload').uploadify({
+                    'formData'     : {
+                        'timestamp' : '<?php echo $timestamp;?>',
+                        '_token'     : '{{csrf_token()}}'
+                    },
+                    'swf'      : '/uploadify/uploadify.swf',
+                    'uploader' : '/admin/lesson/up_pic',
+                    'onUploadSuccess' : function(file, data, response) {
+                        var obj = JSON.parse(data);
+                        if(obj.success === true)
+                        {
+                            $('#show_pic').attr('src',obj.path);
+                            $('#cover_img').val(obj.path);
+                        }
+                    }
+                });
+            });
+		</script>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>上传视频：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input id="upload" name="upload" type="file">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>视频地址：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<p><input name="video_address" id="video_address" class="input-text" type="text" readonly='readonly'></p>
+			</div>
+		</div>
+		<script type="text/javascript">
+            <?php $timestamp = time();?>
+    			$(function() {
+                $('#upload').uploadify({
+                    'formData'     : {
+                        'timestamp' : '<?php echo $timestamp;?>',
+                        '_token'     : '{{csrf_token()}}'
+                    },
+                    'swf'      : '/uploadify/uploadify.swf',
+                    'uploader' : '/admin/lesson/up_video',
+                    'onUploadSuccess' : function(file, data, response) {
+                        var obj = JSON.parse(data);
+                        if(obj.success === true)
+                        {
+
+                            $('#video_address').val(obj.path);
+                        }
+                    }
+                });
+            });
+		</script>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>课时时长：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input name="lesson_duration" class="input-text" type="number">
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">备注：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="beizhu" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<textarea name="course_desc" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -101,16 +141,16 @@
 </article>
 
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
-<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<script type="text/javascript" src="/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本--> 
-<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
-<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
-<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
-<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
 $(function(){
 	$('.skin-minimal input').iCheck({
@@ -118,7 +158,7 @@ $(function(){
 		radioClass: 'iradio-blue',
 		increaseArea: '20%'
 	});
-	
+	/*
 	$("#form-member-add").validate({
 		rules:{
 			username:{
@@ -151,6 +191,30 @@ $(function(){
 			//parent.$('.btn-refresh').click();
 			parent.layer.close(index);
 		}
+	});*/
+
+    $("#form-member-add").submit(function(env){
+        env.preventDefault();
+        var data = $(this).serialize();
+        $.ajax({
+			type:'post',
+			url:'/admin/lesson/add',
+			data:data,
+			dataType:'json',
+			headers:{'X-CSRF-TOKEN':'{{csrf_token()}}'},
+			success:function(msg){
+			    if(msg.success === true)
+				{
+				    layer.alert('添加成功',{icon:6},function(){
+                        parent.window.location.href = parent.window.location.href;
+                        layer_close();
+					});
+				}else
+				{
+				    layer.alert('添加失败【'+mag.errorinfo+'】',{icon:5});
+				}
+			}
+		})
 	});
 });
 </script> 

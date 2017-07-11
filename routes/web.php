@@ -51,7 +51,14 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
             Route::get('permission/showlist','PermissionController@showlist');
             //添加权限操作
             Route::match(['get','post'],'permission/add','PermissionController@add');
-
+            //展示课时列表
+            Route::match(['get','post'],'lesson/showlist','LessonController@showlist');
+            //添加课时操作
+            Route::match(['get','post'],'lesson/add','LessonController@add');
+            //上传课时封面操作
+            Route::match(['get','post'],'lesson/up_pic','LessonController@up_pic');
+            //上传课时视频操作
+            Route::match(['get','post'],'lesson/up_video','LessonController@up_video');
         });
 
     });
