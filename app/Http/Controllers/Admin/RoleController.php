@@ -42,10 +42,10 @@ class RoleController extends Controller
                 $role_remark = $request->input('role_remark');
                 $ps_id = implode(',',$request->input('quanxian'));
                 $role_ps_ac = Permission::whereIn('ps_id',$request->input('quanxian'))
-                            ->select(\DB::raw('concat("ps_c","-","ps_a") as jie'))
+                            ->select(\DB::raw('concat(ps_c,"-",ps_a) as jie'))
                             ->where('ps_level',1)
                             ->pluck('jie');
-                $role_ps_ac = implode(',',$role_ps_ac->toarray());
+                $role_ps_ac = implode(',',$role_ps_ac->toArray());
                 $role->update([
                     'role_name' => $role_name,
                     'role_remark' => $role_remark,
@@ -83,10 +83,11 @@ class RoleController extends Controller
                 $role_remark = $request->input('role_remark');
                 $ps_id = implode(',',$request->input('quanxian'));
                 $role_ps_ac = Permission::whereIn('ps_id',$request->input('quanxian'))
-                    ->select(\DB::raw('concat("ps_c","-","ps_a") as jie'))
-                    ->where('ps_level',1)
+                    ->select(\DB::raw('concat(ps_c,"-",ps_a) as jie'))
+                    ->where('ps_level','1')
                     ->pluck('jie');
-                $role_ps_ac = implode(',',$role_ps_ac->toarray());
+
+                $role_ps_ac = implode(',',$role_ps_ac->toArray());
                 Role::create([
                     'role_name' => $role_name,
                     'role_remark' => $role_remark,
