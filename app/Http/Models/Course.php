@@ -12,4 +12,9 @@ class Course extends Model
     protected $fillable = ['pro_id','course_name','course_price','course_desc','cover_img'];
     use SoftDeletes;
     protected $dates = ['deleted_at'];
+
+    public function profession()
+    {
+        return $this->hasOne('\App\Http\Models\profession','pro_id','pro_id');
+    }
 }

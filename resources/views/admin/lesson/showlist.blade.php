@@ -42,7 +42,7 @@
 				<th width="40">课时名称</th>
 				<th width="90">课时封面</th>
 				<th width="150">视频播放</th>
-				<th width="">课时时长</th>
+				<th width="">对应课程</th>
 				<th width="100">授课教师</th>
 				<th width="130">加入时间</th>
 				<th width="100">操作</th>
@@ -87,11 +87,11 @@ $(function(){
 		"columns":[
 			{'data':'a',"defaultContent":"<input type='checkbox'>"},
 			{'data':'lesson_id'},
-			{'data':'course_id'},
+			{'data':'course.course_name'},
 			{'data':'lesson_name'},
 			{'data':'cover_img'},
 			{'data':'video_address'},
-			{'data':'lesson_duration'},
+			{'data':'course.profession.pro_name'},
 			{'data':'teacher_ids'},
 			{'data':'created_at'},
 			{'data':'b',"defaultContent":"",'className':'td_manager'}
@@ -99,10 +99,13 @@ $(function(){
 		"createdRow":function(row,data,dataIndex){
 		    console.log(row);
 		    var button = '';
+		    var video = '';
             button += '<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'/admin/lesson/update/'+data.lesson_id+'\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>';
             button += '<a style="text-decoration:none" class="ml-5" onClick="change_password(\'修改密码\',\'change-password.html\',\'10001\',\'600\',\'270\')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a>';
             button += '<a title="删除" href="javascript:;" onclick="member_del(this,'+data.lesson_id+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>';
-			$(row).find('td:eq(9)').html(button);
+            video += '<input class="btn btn-success-outline radius" onclick="play_video(\'播放视频\',\'/admin/lesson/play/'+data.lesson_id+'\',\'\',510)" type="button" value="播放">';
+            $(row).find('td:eq(5)').html(video);
+            $(row).find('td:eq(9)').html(button);
 			$(row).addClass('text-c');
 		}
 	});
@@ -111,6 +114,10 @@ $(function(){
 /*用户-添加*/
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
+}
+function play_video(title,url,w,h)
+{
+    layer_show(title,url,w,h);
 }
 /*用户-查看*/
 function member_show(title,url,id,w,h){

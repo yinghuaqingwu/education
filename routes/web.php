@@ -59,6 +59,8 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
             Route::match(['get','post'],'lesson/up_pic','LessonController@up_pic');
             //上传课时视频操作
             Route::match(['get','post'],'lesson/up_video','LessonController@up_video');
+            //课时视频播放
+            Route::match(['get','post'],'lesson/play/{lesson}','LessonController@play');
         });
 
     });

@@ -25,7 +25,10 @@ class LessonController extends Controller
 
             //实现模糊查找
             $search = $request->input('search.value');
-            $info = Lesson::orderBy($order,$by)->offset($offset)->limit($len)->where('lesson_name','like',"%$search%")->get();
+            $info = Lesson::orderBy($order,$by)->offset($offset)->limit($len)->where('lesson_name','like',"%$search%")
+                ->with(['course'=>function($c){
+                    $c->with('profession');
+                }])->get();
             return [
                 'draw'=>$request->get('draw'),
                 'recordsTotal'=>$cnt,
@@ -99,5 +102,11 @@ class LessonController extends Controller
                 return json_encode(['success'=>false]);
             }
         }
+    }
+
+    //课程视频播放
+    public function play(Request $request,Lesson $lesson)
+    {
+        return view('admin/lesson/play',compact('lesson'));
     }
 }
