@@ -69,7 +69,12 @@
 				<td>{{$v->created_at}}</td>
 				@if($v->mg_status == 1)
 				<td class="td-status"><span class="label label-success radius">已启用</span></td>
-				<td class="td-manage"><a style="text-decoration:none" onClick="admin_stop(this,'{{$v->mg_id}}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','{{url("/admin/manager/update",['mg_id'=>$v->mg_id])}}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{$v->mg_id}}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td class="td-manage"><a style="text-decoration:none" onClick="admin_stop(this,'{{$v->mg_id}}')" href="javascript:;" title="停用">
+						<i class="Hui-iconfont">&#xe631;</i></a>
+					<a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','{{url("/admin/manager/update",['mg_id'=>$v->mg_id])}}','1','800','500')" class="ml-5" style="text-decoration:none">
+						<i class="Hui-iconfont">&#xe6df;</i></a>
+					<a title="删除" href="javascript:;" onclick="admin_del(this,'{{$v->mg_id}}')" class="ml-5" style="text-decoration:none">
+						<i class="Hui-iconfont">&#xe6e2;</i></a></td>
 				@elseif($v->mg_status == 0)
 					<td class="td-status"><span class="label label-default radius">已禁用</span></td>
 					<td class="td-manage"><a onClick="admin_start(this,{{$v->mg_id}})" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a> <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','{{url("/admin/manager/update",['mg_id'=>$v->mg_id])}}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{$v->mg_id}}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>

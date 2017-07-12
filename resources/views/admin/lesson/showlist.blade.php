@@ -38,33 +38,16 @@
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="80">ID</th>
-				<th width="100">用户名</th>
-				<th width="40">性别</th>
-				<th width="90">手机</th>
-				<th width="150">邮箱</th>
-				<th width="">地址</th>
+				<th width="100">课程名称</th>
+				<th width="40">课时名称</th>
+				<th width="90">课时封面</th>
+				<th width="150">视频播放</th>
+				<th width="">课时时长</th>
+				<th width="100">授课教师</th>
 				<th width="130">加入时间</th>
-				<th width="70">状态</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
-				<td>1</td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('张三','member-show.html','10001','360','400')">张三</u></td>
-				<td>男</td>
-				<td>13000000000</td>
-				<td>admin@mail.com</td>
-				<td class="text-l">北京市 海淀区</td>
-				<td>2014-6-11 11:11:42</td>
-				<td class="td-status"><span class="label label-success radius">已启用</span></td>
-				<td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
-					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-					<a style="text-decoration:none" class="ml-5" onClick="change_password('修改密码','change-password.html','10001','600','270')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a>
-					<a title="删除" href="javascript:;" onclick="member_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-			</tr>
-		</tbody>
 	</table>
 	</div>
 </div>
@@ -81,12 +64,47 @@
 <script type="text/javascript">
 $(function(){
 	$('.table-sort').dataTable({
-		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
-		"bStateSave": true,//状态保存
-		"aoColumnDefs": [
+		"order": [[ 1, "desc" ]],//默认第几个排序
+		"StateSave": false,//状态保存
+		"columnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
-		]
+		  {"targets":[0,9],"orderable":false}// 制定列不参与排序
+		],
+		"lengthMenu":[4,5],
+		"paging" : true,
+		"info" :true,
+		"searching" :true,
+		"ordering" : true,
+		"processing" : true,
+		"serverSide" : true,
+		"ajax":{
+			"url":"{{url('admin/lesson/showlist')}}",
+			"type":"post",
+			'headers':{
+			    'X-CSRF-TOKEN':'{{csrf_token()}}'
+			},
+		},
+		"columns":[
+			{'data':'a',"defaultContent":"<input type='checkbox'>"},
+			{'data':'lesson_id'},
+			{'data':'course_id'},
+			{'data':'lesson_name'},
+			{'data':'cover_img'},
+			{'data':'video_address'},
+			{'data':'lesson_duration'},
+			{'data':'teacher_ids'},
+			{'data':'created_at'},
+			{'data':'b',"defaultContent":"",'className':'td_manager'}
+		],
+		"createdRow":function(row,data,dataIndex){
+		    console.log(row);
+		    var button = '';
+            button += '<a title="编辑" href="javascript:;" onclick="member_edit(\'编辑\',\'/admin/lesson/update/'+data.lesson_id+'\',4,\'\',510)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>';
+            button += '<a style="text-decoration:none" class="ml-5" onClick="change_password(\'修改密码\',\'change-password.html\',\'10001\',\'600\',\'270\')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a>';
+            button += '<a title="删除" href="javascript:;" onclick="member_del(this,'+data.lesson_id+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>';
+			$(row).find('td:eq(9)').html(button);
+			$(row).addClass('text-c');
+		}
 	});
 	
 });
